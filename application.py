@@ -24,8 +24,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 def get_results(search_term):
     books = db.execute("SELECT * FROM books where ( isbn LIKE '%' || :search_term || '%') OR (title LIKE '%' || :search_term || '%') OR (author LIKE '%' || :search_term || '%')",
-                       {'search_term': search_term})
-    print(books.fetchall())
+                       {'search_term': search_term}).fetchall()
     return books
 
 
@@ -88,13 +87,13 @@ def search(books=None):
                 return render_template('search.html')
             else:  # search functionality
                 if request.form['isbn']:
-                    get_results(request.form['isbn'])
+                    books = get_results(request.form['isbn'])
                     return render_template('search.html', books=books)
                 elif request.form['title']:
-                    get_results(request.form['title'])
+                    books = get_results(request.form['title'])
                     return render_template('search.html', books=books)
                 elif request.form['author']:
-                    get_results(request.form['author'])
+                    books = get_results(request.form['author'])
                     return render_template('search.html', books=books)
                 else:
                     return redirect(url_for('search'))
