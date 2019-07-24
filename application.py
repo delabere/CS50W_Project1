@@ -29,20 +29,27 @@ db = scoped_session(sessionmaker(bind=engine))
 @app.route("/<message>", methods=['GET', 'POST'])
 def login(message='Welcome!'):
     if 'authenticated' in session:
-        return(redirect(url_for('search')))
-    else:
-        if request.method == 'GET':
-            return render_template('login.html', message=message)
-
+        if session['authenticated'] == True:
+            return(redirect(url_for('search')))
         else:
-            session['username'] = request.form['username']
-            session['password'] = request.form['password']
-            if db.execute("SELECT * FROM users WHERE username = :username AND password = :password",
-                          {'username': session['username'], 'password': session['password']}).fetchone() != None:
-                session['authenticated'] = True
-                return(redirect(url_for('search')))
+            if request.method == 'GET':
+                return render_template('login.html', message=message)
+
             else:
-                return("Incorrect username or password - or the user doesn't exist")
+                session['username'] = request.form['username']
+                session['password'] = request.form['password']
+                if db.execute("SELECT * FROM users WHERE username = :username AND password = :password",
+                              {'username': session['username'], 'password': session['password']}).fetchone() != None:
+                    session['authenticated'] = True
+                    return(redirect(url_for('search')))
+                else:
+                    return("Incorrect username or password - or the user doesn't exist")
+
+
+@app.route("/logout")
+def logout():
+    session['authenticated'] = False
+    return 'user logged out'
 
 
 @app.route("/register", methods=['GET', 'POST'])
