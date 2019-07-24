@@ -10,9 +10,9 @@
 
 .bg-image {
   /* background-image: url('https://source.unsplash.com/WEQbe2jBg40/600x1200'); */
-  background-image: url('static/img/old-book-cover.jpeg');
+  background-image: url('../img/old-book-cover.jpg');
   background-size: cover;
-  background-position: center;
+  background-position: left;
 }
 
 .login-heading {
