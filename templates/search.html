@@ -15,6 +15,15 @@
 
 
 <body>
+
+  <nav class="navbar navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{ url_for('search') }}">
+      <img src="static\img\1024px-Closed_Book_Icon.svg.png" width="30" height="30" class="d-inline-block align-top" alt="">
+      Over-Booked
+    </a>
+  </nav>
+
+
   <br>
   <div class="container-fluid">
     <div class="row no-gutter">
@@ -85,7 +94,7 @@
   </div>
 
   {% else %}
-  <h1 class="alert alert-danger text-center">404: No books found</h1>
+  <h1 class="alert alert-dark text-center">404: No books found</h1>
   {% endif %}
 
 

@@ -94,6 +94,6 @@ def search(books=None):
                     books = get_results(request.form['author'])
                     return render_template('search.html', books=books)
         else:
-            return redirect(url_for('login', message=session['authenticated']))
+            return redirect(url_for('login', message='You have to login first!'))
     else:
         return redirect(url_for('login', message='You have to login first!'))

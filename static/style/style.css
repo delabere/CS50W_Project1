@@ -3,6 +3,7 @@
   --input-padding-y: 0.75rem;
 }
 
+
 .login, .image {
   min-height: 100vh;
 }
@@ -76,5 +77,3 @@ td a {
 body {
   background-color: #edb26c;
 }
-
-/*# sourceMappingURL=style.css.map */
