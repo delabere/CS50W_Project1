@@ -43,7 +43,7 @@ def login(message='Welcome!'):
                     session['authenticated'] = True
                     return(redirect(url_for('search')))
                 else:
-                    return("Incorrect username or password - or the user doesn't exist")
+                    return redirect(url_for('login', message="Wrong username or password. Try again"))
 
 
 @app.route("/logout")
