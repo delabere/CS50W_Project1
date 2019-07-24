@@ -33,10 +33,12 @@ def login(message='Welcome!'):
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        print('post success')
         username = request.form['username']
         password = request.form['password']
-        print(username, password)
+
+        db.execute("INSERT INTO USERS (username, password) values (:username, :password)",
+                   {'username': username, 'password': password})
+        db.commit()
         return redirect(url_for('login', message="User created, please login!"))
     else:
         return render_template('register.html')
