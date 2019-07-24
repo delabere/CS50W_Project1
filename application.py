@@ -49,7 +49,7 @@ def login(message='Welcome!'):
 @app.route("/logout")
 def logout():
     session['authenticated'] = False
-    return 'user logged out'
+    return redirect(url_for('login'))
 
 
 @app.route("/register", methods=['GET', 'POST'])
