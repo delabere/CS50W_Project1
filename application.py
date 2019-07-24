@@ -77,6 +77,7 @@ def register():
 @app.route("/search/<isbn>")
 def search(isbn=None):
     if 'authenticated' in session:
-        return 'This is where the search page is going to go'
-    else:
-        return 'This area is only for users who have logged in'
+        if session['authenticated'] == True:
+            return render_template('search.html')
+        else:
+            return 'This area is only for users who have logged in'
