@@ -1,112 +1,82 @@
-<!doctype html>
-<html lang="en">
+{% extends 'base.html' %}
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="static/style/style.css">
+{% block body %}
 
-  <title>Hello, world!</title>
-</head>
+<br>
+<div class="container-fluid">
+  <div class="row no-gutter">
+    <div class="col-md-8 col-lg-6 mx-auto">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 col-lg-12 mx-auto">
+            <h3 class="login-heading mb-4  text-center">Search using any of the below fields:</h3>
+            <div class="container">
 
-<body>
-
-  <nav class="navbar navbar-dark bg-dark">
-    <a class="navbar-brand" href="{{ url_for('search') }}">
-      <img src="static\img\1024px-Closed_Book_Icon.svg.png" width="30" height="30" class="d-inline-block align-top" alt="">
-      Over-Booked
-    </a>
-    <a class="navbar-brand" href="{{ url_for('logout') }}">
-      Logout
-    </a>
-  </nav>
-
-  <br>
-  <div class="container-fluid">
-    <div class="row no-gutter">
-      <div class="col-md-8 col-lg-6 mx-auto">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12 col-lg-12 mx-auto">
-              <h3 class="login-heading mb-4  text-center">Search using any of the below fields:</h3>
-              <div class="container">
-
-                <form action="{{ url_for('search') }}" method="POST">
-                  <div class="row">
-                    <div class="col-sm">
-                      <div class="form-group">
-                        <label for="inputEmail">ISBN</label>
-                        <input type="text" id="inputSearch1" class="form-control" placeholder="ISBN" name="isbn" autofocus>
-                      </div>
-                    </div>
-
-                    <div class="col-sm">
-                      <div class="form-group">
-                        <label for="inputPassword">Title</label>
-                        <input type="text" id="inputSearch2" class="form-control" placeholder="Title" name="title">
-                      </div>
-                    </div>
-
-                    <div class="col-sm">
-                      <div class="form-group">
-                        <label for="inputPassword">Author</label>
-                        <input type="text" id="inputSearch2" class="form-control" placeholder="Author" name="author">
-                      </div>
+              <form action="{{ url_for('search') }}" method="POST">
+                <div class="row">
+                  <div class="col-sm">
+                    <div class="form-group">
+                      <label for="inputEmail">ISBN</label>
+                      <input type="text" id="inputSearch1" class="form-control" placeholder="ISBN" name="isbn" autofocus>
                     </div>
                   </div>
 
-              </div>
-              <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" href"{{ url_for('login', message=message) }}" type="submit">Search</button>
-            </div>
-            </form>
+                  <div class="col-sm">
+                    <div class="form-group">
+                      <label for="inputPassword">Title</label>
+                      <input type="text" id="inputSearch2" class="form-control" placeholder="Title" name="title">
+                    </div>
+                  </div>
 
+                  <div class="col-sm">
+                    <div class="form-group">
+                      <label for="inputPassword">Author</label>
+                      <input type="text" id="inputSearch2" class="form-control" placeholder="Author" name="author">
+                    </div>
+                  </div>
+                </div>
+
+            </div>
+            <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" href"{{ url_for('login', message=message) }}" type="submit">Search</button>
           </div>
+          </form>
+
         </div>
       </div>
     </div>
   </div>
-  <br>
+</div>
+<br>
 
-  {% if books %}
-  <div class="container-fluid">
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th scope="col">ISBN</th>
-          <th scope="col">Title</th>
-          <th scope="col">Author</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for book in books %}
-        <tr>
-          <td><a href="{{ url_for('book', isbn=book[0]) }}">{{book[0]}}</a></td>
-          <td><a href="{{ url_for('book', isbn=book[0]) }}">{{book[1]}}</a></td>
-          <td><a href="{{ url_for('book', isbn=book[0]) }}">{{book[2]}}</a></td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+{% if books %}
+<div class="container-fluid">
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">ISBN</th>
+        <th scope="col">Title</th>
+        <th scope="col">Author</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+      <tr>
+        <td><a href="{{ url_for('book', isbn=book[0]) }}">{{book[0]}}</a></td>
+        <td><a href="{{ url_for('book', isbn=book[0]) }}">{{book[1]}}</a></td>
+        <td><a href="{{ url_for('book', isbn=book[0]) }}">{{book[2]}}</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 
-  </div>
+</div>
 
-  {% else %}
-  {% if first == False %}
-  <h1 class="alert alert-dark text-center">404: No books found</h1>
-  {% endif %}
-  {% endif %}
+{% else %}
+{% if first == False %}
+<h1 class="alert alert-dark text-center">404: No books found</h1>
+{% endif %}
+{% endif %}
 
 
-
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</body>
-
-</html>
+{% endblock %}
