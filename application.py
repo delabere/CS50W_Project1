@@ -80,4 +80,4 @@ def search(isbn=None):
         if session['authenticated'] == True:
             return render_template('search.html')
         else:
-            return 'This area is only for users who have logged in'
+            return redirect(url_for('login', message='You have to login first!'))
