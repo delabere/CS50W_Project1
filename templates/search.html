@@ -13,7 +13,6 @@
   <title>Hello, world!</title>
 </head>
 
-
 <body>
 
   <nav class="navbar navbar-dark bg-dark">
@@ -21,8 +20,10 @@
       <img src="static\img\1024px-Closed_Book_Icon.svg.png" width="30" height="30" class="d-inline-block align-top" alt="">
       Over-Booked
     </a>
+    <a class="navbar-brand" href="{{ url_for('logout') }}">
+      Logout
+    </a>
   </nav>
-
 
   <br>
   <div class="container-fluid">
@@ -94,7 +95,9 @@
   </div>
 
   {% else %}
+  {% if first == False %}
   <h1 class="alert alert-dark text-center">404: No books found</h1>
+  {% endif %}
   {% endif %}
 
 

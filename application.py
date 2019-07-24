@@ -78,21 +78,23 @@ def register():
 
 
 @app.route("/search", methods=['GET', 'POST'])
-def search(books=None):
+def search(books=None, first=False):
     if 'authenticated' in session:
         if session['authenticated'] == True:
             if request.method == 'GET':
-                return render_template('search.html')
+                return render_template('search.html', first=True)
             else:  # search functionality
                 if request.form['isbn']:
                     books = get_results(request.form['isbn'])
-                    return render_template('search.html', books=books)
+                    return render_template('search.html', books=books, first=False)
                 elif request.form['title']:
                     books = get_results(request.form['title'])
-                    return render_template('search.html', books=books)
+                    return render_template('search.html', books=books, first=False)
                 elif request.form['author']:
                     books = get_results(request.form['author'])
-                    return render_template('search.html', books=books)
+                    return render_template('search.html', books=books, first=False)
+                else:
+                    return render_template('search.html', first=False)
         else:
             return redirect(url_for('login', message='You have to login first!'))
     else:
