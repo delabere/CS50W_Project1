@@ -23,8 +23,8 @@ db = scoped_session(sessionmaker(bind=engine))
 
 
 def get_results(search_term):
-    books = db.execute("SELECT * FROM books where ( isbn LIKE '%' || :search_term || '%') OR (title LIKE '%' || :search_term || '%') OR (author LIKE '%' || :search_term || '%')",
-                       {'search_term': search_term}).fetchall()
+    books = db.execute("SELECT * FROM books where ( LOWER(isbn) LIKE '%' || :search_term || '%') OR (LOWER(title) LIKE '%' || :search_term || '%') OR (LOWER(author) LIKE '%' || :search_term || '%')",
+                       {'search_term': search_term.lower()}).fetchall()
     return books
 
 
