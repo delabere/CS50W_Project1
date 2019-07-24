@@ -19,7 +19,6 @@ Session(app)
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
-# session['authenticated'] = False
 
 
 def get_results(search_term):
@@ -37,7 +36,6 @@ def login(message='Welcome!'):
         else:
             if request.method == 'GET':
                 return render_template('login.html', message=message)
-
             else:
                 session['username'] = request.form['username']
                 session['password'] = request.form['password']
@@ -95,9 +93,7 @@ def search(books=None):
                 elif request.form['author']:
                     books = get_results(request.form['author'])
                     return render_template('search.html', books=books)
-                else:
-                    return redirect(url_for('search'))
         else:
-            return redirect(url_for('login', message='You have to login first!'))
+            return redirect(url_for('login', message=session['authenticated']))
     else:
         return redirect(url_for('login', message='You have to login first!'))

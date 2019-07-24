@@ -68,4 +68,13 @@
   color: #777;
 }
 
+td a {
+  display: block;
+  color: black;
+}
+
+body {
+  background-color: #edb26c;
+}
+
 /*# sourceMappingURL=style.css.map */

@@ -61,17 +61,34 @@
   </div>
   <br>
 
-
   {% if books %}
-  {% for book in books %}
+  <div class="container-fluid">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">ISBN</th>
+          <th scope="col">Title</th>
+          <th scope="col">Author</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for book in books %}
+        <tr>
+          <td><a href="#">{{book[0]}}</a></td>
+          <td><a href="#">{{book[1]}}</a></td>
+          <td><a href="#">{{book[2]}}</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
 
-  <h6>{{book}}</h6>
-  {% endfor %}
+  </div>
+
   {% else %}
-  <h1 class="text-center">404: No books found</h1>
-
-
+  <h1 class="alert alert-danger text-center">404: No books found</h1>
   {% endif %}
+
+
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
