@@ -22,23 +22,55 @@ Session(app)
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
+# session['authenticated'] = False
 
 
-@app.route("/")
-@app.route("/<message>")
+@app.route("/", methods=['GET', 'POST'])
+@app.route("/<message>", methods=['GET', 'POST'])
 def login(message='Welcome!'):
-    return render_template('login.html', message=message)
+    # if session['authenticated'] == None:
+    #     session['authenticated'] = False
+    # else:
+    #     redirect(url_for('search'))
+    if request.method == 'GET':
+        return render_template('login.html', message=message)
+
+    else:
+        session['username'] = request.form['username']
+        session['password'] = request.form['password']
+        if db.execute("SELECT * FROM users WHERE username = :username AND password = :password",
+                      {'username': session['username'], 'password': session['password']}).fetchone() != None:
+            session['authenticated'] = True
+            return(redirect(url_for('search')))
+        else:
+            return("Incorrect username or password - or the user doesn't exist")
 
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
+    if request.method == 'GET':
+        return render_template('register.html')
+    else:
         username = request.form['username']
         password = request.form['password']
 
-        db.execute("INSERT INTO USERS (username, password) values (:username, :password)",
-                   {'username': username, 'password': password})
-        db.commit()
-        return redirect(url_for('login', message="User created, please login!"))
+        # check that user doesn't already exist
+        if db.execute("SELECT * FROM users WHERE username = :username",
+                      {'username': username}).fetchone() == None:
+            db.execute("INSERT INTO USERS(username, password) values(:username, :password)",
+                       {'username': username, 'password': password})
+            db.commit()
+
+        else:
+            return('User already exists...please try another username')
+        return redirect(url_for('login',
+                                message="User created, please login!"))
+
+
+@app.route("/search")
+@app.route("/search/<isbn>")
+def search(isbn=None):
+    if session['authenticated'] == True:
+        return 'This is where the search page is going to go'
     else:
-        return render_template('register.html')
+        return 'This area is only for users who have logged in'
