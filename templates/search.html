@@ -19,33 +19,32 @@
   <div class="container-fluid">
     <div class="row no-gutter">
       <div class="col-md-8 col-lg-6 mx-auto">
-        <!-- <div class="login d-flex align-items-top py-5"> -->
         <div class="container">
           <div class="row">
             <div class="col-md-12 col-lg-12 mx-auto">
-              <h3 class="login-heading mb-4  text-center">Search:</h3>
+              <h3 class="login-heading mb-4  text-center">Search using any of the below fields:</h3>
               <div class="container">
 
-                <form action="#" method="POST">
+                <form action="{{ url_for('search') }}" method="POST">
                   <div class="row">
                     <div class="col-sm">
                       <div class="form-group">
                         <label for="inputEmail">ISBN</label>
-                        <input type="text" id="inputSearch1" class="form-control" placeholder="ISBN" name="username" autofocus>
+                        <input type="text" id="inputSearch1" class="form-control" placeholder="ISBN" name="isbn" autofocus>
                       </div>
                     </div>
 
                     <div class="col-sm">
                       <div class="form-group">
                         <label for="inputPassword">Title</label>
-                        <input type="text" id="inputSearch2" class="form-control" placeholder="Title" name="password">
+                        <input type="text" id="inputSearch2" class="form-control" placeholder="Title" name="title">
                       </div>
                     </div>
 
                     <div class="col-sm">
                       <div class="form-group">
                         <label for="inputPassword">Author</label>
-                        <input type="text" id="inputSearch2" class="form-control" placeholder="Author" name="password">
+                        <input type="text" id="inputSearch2" class="form-control" placeholder="Author" name="author">
                       </div>
                     </div>
                   </div>
@@ -57,10 +56,10 @@
 
           </div>
         </div>
-        <!-- </div> -->
       </div>
     </div>
   </div>
+  <br>
 
 
 

@@ -8,9 +8,6 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 app = Flask(__name__)
 
 
-# Check for environment variable
-# postgres://onfwzccdzpjzgo:25b3ec29ff230332eb948ca489d4fb22c9d3c00cc7a7cc8a723ea8c6f84de8dd@ec2-54-217-219-235.eu-west-1.compute.amazonaws.com:5432/dcig9roku03qke
-
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
 
@@ -23,6 +20,13 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 # session['authenticated'] = False
+
+
+def get_results(search_term):
+    books = db.execute("SELECT * FROM books where ( isbn LIKE '%' || :search_term || '%') OR (title LIKE '%' || :search_term || '%') OR (author LIKE '%' || :search_term || '%')",
+                       {'search_term': search_term})
+    print(books.fetchall())
+    return books
 
 
 @app.route("/", methods=['GET', 'POST'])
@@ -44,6 +48,9 @@ def login(message='Welcome!'):
                     return(redirect(url_for('search')))
                 else:
                     return redirect(url_for('login', message="Wrong username or password. Try again"))
+    else:
+        session['authenticated'] = False
+        return redirect(url_for('login'))
 
 
 @app.route("/logout")
@@ -73,11 +80,25 @@ def register():
                                 message="User created, please login!"))
 
 
-@app.route("/search")
-@app.route("/search/<isbn>")
-def search(isbn=None):
+@app.route("/search", methods=['GET', 'POST'])
+def search(books=None):
     if 'authenticated' in session:
         if session['authenticated'] == True:
-            return render_template('search.html')
+            if request.method == 'GET':
+                return render_template('search.html')
+            else:  # search functionality
+                if request.form['isbn']:
+                    get_results(request.form['isbn'])
+                    return render_template('search.html', books=books)
+                elif request.form['title']:
+                    get_results(request.form['title'])
+                    return render_template('search.html', books=books)
+                elif request.form['author']:
+                    get_results(request.form['author'])
+                    return render_template('search.html', books=books)
+                else:
+                    return redirect(url_for('search'))
         else:
             return redirect(url_for('login', message='You have to login first!'))
+    else:
+        return redirect(url_for('login', message='You have to login first!'))
