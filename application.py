@@ -101,7 +101,13 @@ def search(books=None, first=False):
         return redirect(url_for('login', message='You have to login first!'))
 
 
+@app.route("/book", methods=['GET', 'POST'])
 @app.route("/book/<isbn>", methods=['GET', 'POST'])
 def book(isbn=None):
     if request.method == 'GET':
-        return f"the selected book has an ISBN of {isbn}"
+        return render_template('book.html')
+    else:
+        rating = get_results(request.form['rating'])
+        review = get_results(request.form['review'])
+        print(review, rating)
+        return render_template('book.html', isbn=isbn)
