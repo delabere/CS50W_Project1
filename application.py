@@ -107,6 +107,7 @@ def book(isbn):
     if request.method == 'GET':
         return render_template('book.html', isbn=isbn)
     else:
+        # add check that isbn is valid if entered manually else 404 error
         rating = request.form['rating']
         review = request.form['review']
         print(rating, review)
