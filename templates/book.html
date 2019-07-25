@@ -16,9 +16,10 @@
       <img class="card-img-top" src="../static/img/1024px-Closed_Book_Icon.svg.png" alt="Card image cap">
       <div class="card-body">
         <h5 class="card-title">{{ title }}</h5>
-        <p class="card-text">Written by {{ author }}</p>
+        <p class="card-text">Average rating: <strong>{{ average_rating }}</strong> / 5 <br>({{ ratings_count }} ratings)</p>
       </div>
       <ul class="list-group list-group-flush">
+        <li class="list-group-item">Author: {{ author }}</li>
         <li class="list-group-item">Published: {{ year }}</li>
         <li class="list-group-item">ISBN: {{ isbn }}</li>
       </ul>
@@ -67,6 +68,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12 col-lg-12 mx-auto">
+            <br>
             <h3 class="login-heading mb-4  text-center">What were your thoughts?:</h3>
             <div class="container">
 
