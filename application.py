@@ -133,9 +133,11 @@ def book(isbn):
     if request.method == 'GET':
         # ('158648303X', 'Auschwitz: A New History', 'Laurence Rees', 2005)
         _, title, author, year = getBookdata(isbn)
-        gdrds_data = getGrdsdata(isbn)
-        return render_template('book.html', isbn=isbn,
-                                title=title, author=author, year=year)
+        ratings_count, average_rating = getGrdsdata(isbn)
+        return render_template('book.html', isbn=isbn, title=title,
+                                            author=author, year=year,
+                                            ratings_count=ratings_count,
+                                            average_rating=average_rating)
     else:
         # add check that isbn is valid if entered manually else 404 error
         rating = request.form['rating']
