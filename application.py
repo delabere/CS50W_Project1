@@ -110,11 +110,23 @@ def search(books=None, first=False):
         return redirect(url_for('login', message='You have to login first!'))
 
 
+
+def getBookdata(isbn):
+    """Retrieves book data from the book table"""
+    data = db.execute("SELECT * FROM books where isbn = :isbn", {'isbn': isbn}).fetchone()
+    return data
+
+
+
 @app.route("/book/<isbn>", methods=['GET', 'POST'])
 def book(isbn):
     """Gives user detail on a book and the abliity to rate it"""
     if request.method == 'GET':
-        return render_template('book.html', isbn=isbn)
+        data = getBookdata(isbn)
+        # ('158648303X', 'Auschwitz: A New History', 'Laurence Rees', 2005)
+        _, title, author, year = data
+        return render_template('book.html', isbn=isbn,
+                                title=title, author=author, year=year)
     else:
         # add check that isbn is valid if entered manually else 404 error
         rating = request.form['rating']
