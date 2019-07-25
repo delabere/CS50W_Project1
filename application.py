@@ -24,6 +24,7 @@ db = scoped_session(sessionmaker(bind=engine))
 def get_results(search_term):
     books = db.execute("SELECT * FROM books where ( LOWER(isbn) LIKE '%' || :search_term || '%') OR (LOWER(title) LIKE '%' || :search_term || '%') OR (LOWER(author) LIKE '%' || :search_term || '%')",
                        {'search_term': search_term.lower()}).fetchall()
+    print('===============================================GETBOOKSS=========================')
     return books
 
 
@@ -101,13 +102,12 @@ def search(books=None, first=False):
         return redirect(url_for('login', message='You have to login first!'))
 
 
-@app.route("/book", methods=['GET', 'POST'])
 @app.route("/book/<isbn>", methods=['GET', 'POST'])
-def book(isbn=None):
+def book(isbn):
     if request.method == 'GET':
-        return render_template('book.html')
+        return render_template('book.html', isbn=isbn)
     else:
-        rating = get_results(request.form['rating'])
-        review = get_results(request.form['review'])
-        print(review, rating)
+        rating = request.form['rating']
+        review = request.form['review']
+        print(rating, review)
         return render_template('book.html', isbn=isbn)
