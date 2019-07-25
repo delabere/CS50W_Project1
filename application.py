@@ -21,10 +21,10 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
 
-def get_results(search_term):
-    books = db.execute("SELECT * FROM books where ( LOWER(isbn) LIKE '%' || :search_term || '%') OR (LOWER(title) LIKE '%' || :search_term || '%') OR (LOWER(author) LIKE '%' || :search_term || '%')",
+def get_results(search_term, search_field):
+    books = db.execute(f"SELECT * FROM books where ( LOWER({search_field}) LIKE '%' || :search_term || '%')",
                        {'search_term': search_term.lower()}).fetchall()
-    print('===============================================GETBOOKSS=========================')
+    print('==============================GETBOOKSS===========================')
     return books
 
 
@@ -86,13 +86,16 @@ def search(books=None, first=False):
                 return render_template('search.html', first=True)
             else:  # search functionality
                 if request.form['isbn']:
-                    books = get_results(request.form['isbn'])
+                    books = get_results(
+                        request.form['isbn'], search_field='isbn')
                     return render_template('search.html', books=books, first=False)
                 elif request.form['title']:
-                    books = get_results(request.form['title'])
+                    books = get_results(
+                        request.form['title'], search_field='title')
                     return render_template('search.html', books=books, first=False)
                 elif request.form['author']:
-                    books = get_results(request.form['author'])
+                    books = get_results(
+                        request.form['author'], search_field='author')
                     return render_template('search.html', books=books, first=False)
                 else:
                     return render_template('search.html', first=False)
