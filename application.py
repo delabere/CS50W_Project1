@@ -22,6 +22,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 
 def get_results(search_term, search_field):
+    """Returns database results as a list of tuples"""
     books = db.execute(f"SELECT * FROM books where ( LOWER({search_field}) LIKE '%' || :search_term || '%')",
                        {'search_term': search_term.lower()}).fetchall()
     print('==============================GETBOOKSS===========================')
@@ -31,6 +32,7 @@ def get_results(search_term, search_field):
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/<message>", methods=['GET', 'POST'])
 def login(message='Welcome!'):
+    """View function to greet user with login screen"""
     if 'authenticated' in session:
         if session['authenticated'] == True:
             return(redirect(url_for('search')))
@@ -53,12 +55,14 @@ def login(message='Welcome!'):
 
 @app.route("/logout")
 def logout():
+    """Allows the user to terminate the session"""
     session['authenticated'] = False
     return redirect(url_for('login'))
 
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():
+    """View function that allows new users to register"""
     if request.method == 'GET':
         return render_template('register.html')
     else:
@@ -80,6 +84,7 @@ def register():
 
 @app.route("/search", methods=['GET', 'POST'])
 def search(books=None, first=False):
+    """Allows the search of books using isbn, title or author"""
     if 'authenticated' in session:
         if session['authenticated'] == True:
             if request.method == 'GET':
@@ -107,6 +112,7 @@ def search(books=None, first=False):
 
 @app.route("/book/<isbn>", methods=['GET', 'POST'])
 def book(isbn):
+    """Gives user detail on a book and the abliity to rate it"""
     if request.method == 'GET':
         return render_template('book.html', isbn=isbn)
     else:
