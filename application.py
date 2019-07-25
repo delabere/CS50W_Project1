@@ -116,15 +116,24 @@ def getBookdata(isbn):
     data = db.execute("SELECT * FROM books where isbn = :isbn", {'isbn': isbn}).fetchone()
     return data
 
+import requests
 
+
+def getGrdsdata(isbn):
+    """Retrieves book data from the goodreads API"""
+    request_url = f"https://www.goodreads.com/book/review_counts.json?isbns={isbn}&key=RloC1sRcAIRXYSD10c88AA"
+    response = requests.get(request_url).json()
+    ratings_count = response['books'][0]['work_ratings_count']
+    average_rating = response['books'][0]['average_rating']
+    return ratings_count, average_rating
 
 @app.route("/book/<isbn>", methods=['GET', 'POST'])
 def book(isbn):
     """Gives user detail on a book and the abliity to rate it"""
     if request.method == 'GET':
-        data = getBookdata(isbn)
         # ('158648303X', 'Auschwitz: A New History', 'Laurence Rees', 2005)
-        _, title, author, year = data
+        _, title, author, year = getBookdata(isbn)
+        gdrds_data = getGrdsdata(isbn)
         return render_template('book.html', isbn=isbn,
                                 title=title, author=author, year=year)
     else:
