@@ -148,7 +148,10 @@ def book(isbn):
         # add check that isbn is valid if entered manually else 404 error
         rating = request.form['rating']
         review = request.form['review']
-        db.execute("INSERT INTO reviews(isbn, username, review_score, review_content) values(:isbn, :username, :review_score, :review_content)",
-                   {'isbn': isbn, 'username': session['username'], 'review_score': rating, 'review_content': review})
-        db.commit()
-        return redirect(url_for('book', isbn=isbn))
+        if 'username' in session:
+            db.execute("INSERT INTO reviews(isbn, username, review_score, review_content) values(:isbn, :username, :review_score, :review_content)",
+                       {'isbn': isbn, 'username': session['username'], 'review_score': rating, 'review_content': review})
+            db.commit()
+            return redirect(url_for('book', isbn=isbn))
+        else:
+            return redirect(url_for('login'))
