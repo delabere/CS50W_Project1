@@ -127,6 +127,11 @@ def getGrdsdata(isbn):
     average_rating = response['books'][0]['average_rating']
     return ratings_count, average_rating
 
+def getReviews(isbn):
+    """Gets review data from database"""
+    review_data = db.execute("SELECT username, review_score, review_content FROM reviews where isbn = :isbn", {'isbn': isbn}).fetchall()
+    return review_data
+
 @app.route("/book/<isbn>", methods=['GET', 'POST'])
 def book(isbn):
     """Gives user detail on a book and the abliity to rate it"""
@@ -134,13 +139,17 @@ def book(isbn):
         # ('158648303X', 'Auschwitz: A New History', 'Laurence Rees', 2005)
         _, title, author, year = getBookdata(isbn)
         ratings_count, average_rating = getGrdsdata(isbn)
+        review_data = getReviews(isbn)
         return render_template('book.html', isbn=isbn, title=title,
                                             author=author, year=year,
                                             ratings_count=ratings_count,
-                                            average_rating=average_rating)
+                                            average_rating=average_rating,
+                                            review_data=review_data)
     else:
         # add check that isbn is valid if entered manually else 404 error
         rating = request.form['rating']
         review = request.form['review']
-        print(rating, review)
-        return render_template('book.html', isbn=isbn)
+        db.execute("INSERT INTO reviews(isbn, username, review_score, review_content) values(:isbn, :username, :review_score, :review_content)",
+                   {'isbn': isbn, 'username': session['username'], 'review_score': rating, 'review_content': review})
+        db.commit()
+        return redirect(url_for('book', isbn=isbn))
