@@ -4,6 +4,7 @@ from flask import Flask, session, render_template, request, url_for, redirect
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
+import requests
 
 app = Flask(__name__)
 
@@ -28,6 +29,24 @@ def get_results(search_term, search_field):
     print('==============================GETBOOKSS===========================')
     return books
 
+def getBookdata(isbn):
+    """Retrieves book data from the book table"""
+    data = db.execute("SELECT * FROM books where isbn = :isbn", {'isbn': isbn}).fetchone()
+    return data
+
+
+def getGrdsdata(isbn):
+    """Retrieves book data from the goodreads API"""
+    request_url = f"https://www.goodreads.com/book/review_counts.json?isbns={isbn}&key=RloC1sRcAIRXYSD10c88AA"
+    response = requests.get(request_url).json()
+    ratings_count = response['books'][0]['work_ratings_count']
+    average_rating = response['books'][0]['average_rating']
+    return ratings_count, average_rating
+
+def getReviews(isbn):
+    """Gets review data from database"""
+    review_data = db.execute("SELECT username, review_score, review_content FROM reviews where isbn = :isbn", {'isbn': isbn}).fetchall()
+    return review_data
 
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/<message>", methods=['GET', 'POST'])
@@ -111,26 +130,6 @@ def search(books=None, first=False):
 
 
 
-def getBookdata(isbn):
-    """Retrieves book data from the book table"""
-    data = db.execute("SELECT * FROM books where isbn = :isbn", {'isbn': isbn}).fetchone()
-    return data
-
-import requests
-
-
-def getGrdsdata(isbn):
-    """Retrieves book data from the goodreads API"""
-    request_url = f"https://www.goodreads.com/book/review_counts.json?isbns={isbn}&key=RloC1sRcAIRXYSD10c88AA"
-    response = requests.get(request_url).json()
-    ratings_count = response['books'][0]['work_ratings_count']
-    average_rating = response['books'][0]['average_rating']
-    return ratings_count, average_rating
-
-def getReviews(isbn):
-    """Gets review data from database"""
-    review_data = db.execute("SELECT username, review_score, review_content FROM reviews where isbn = :isbn", {'isbn': isbn}).fetchall()
-    return review_data
 
 @app.route("/book/<isbn>", methods=['GET', 'POST'])
 def book(isbn):
