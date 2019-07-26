@@ -155,3 +155,8 @@ def book(isbn):
             return redirect(url_for('book', isbn=isbn))
         else:
             return redirect(url_for('login'))
+
+@app.route('api/<isbn>'):
+def api(isbn):
+    """Returns a JSON response object from an api call"""
+    # return response_object
