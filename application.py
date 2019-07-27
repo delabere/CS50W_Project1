@@ -76,6 +76,8 @@ def login(message='Welcome!'):
 def logout():
     """Allows the user to terminate the session"""
     session['authenticated'] = False
+    del session['username']
+    del session['password']
     return redirect(url_for('login'))
 
 
