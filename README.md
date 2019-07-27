@@ -1,5 +1,5 @@
 # Project 1
-Web Programming with Python and JavaScript
+A project completed as part of CS50's Web Programming with Python and JavaScript
 
 # Over-Booked
 This is a website that allows you to search information for 5000 books!
