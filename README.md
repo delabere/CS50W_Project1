@@ -2,7 +2,8 @@
 A project completed as part of CS50's Web Programming with Python and JavaScript
 
 # Over-Booked
-This is a website that allows you to search information for 5000 books!
+Over-Booked is a fully responsive website that allows you to search information
+for thousands of books!
 
 Over-Booked integrates with the goodreads api to gather information from
 thousands of reviews as well as allowing you to read and leave reviews
