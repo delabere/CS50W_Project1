@@ -12,7 +12,7 @@
 
 <br>
 
-    <div class="card mx-auto" style="width: 75%;">
+    <div class="card mx-auto" #id="book-card" style="width: 75%;">
       <img class="card-img-top" src="../static/img/1024px-Closed_Book_Icon.svg.png" alt="Card image cap">
       <div class="card-body">
         <h5 class="card-title">{{ title }}</h5>
@@ -36,7 +36,7 @@
 
   <!-- cards to be iterable upon reviews -->
   {% for review in review_data %}
-  <div class="card mx-auto" style="width: 75%;">
+  <div class="card mx-auto" #id="book-card" style="width: 75%;">
     <div class="card-body">
       <h5 class="card-title"><strong>{{ review[1] }}</strong> / 5</h5>
       <h6 class="card-subtitle mb-2 text-muted">{{ review[0] }}</h6>
