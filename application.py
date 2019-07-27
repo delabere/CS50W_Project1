@@ -5,6 +5,7 @@ from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 import requests
+import json
 
 app = Flask(__name__)
 
@@ -156,7 +157,12 @@ def book(isbn):
         else:
             return redirect(url_for('login'))
 
-@app.route('api/<isbn>'):
+@app.route('/api/<isbn>')
 def api(isbn):
     """Returns a JSON response object from an api call"""
-    # return response_object
+    response = {}
+    # get the goodreads api data
+    response['isbn'], response['title'], response['author'], response['year'] = getBookdata(isbn)
+    response['review_count'], response['average_score'] = getGrdsdata(isbn)
+
+    return json.dumps(response)
