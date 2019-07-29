@@ -48,6 +48,7 @@ def getReviews(isbn):
     review_data = db.execute("SELECT username, review_score, review_content FROM reviews where isbn = :isbn", {'isbn': isbn}).fetchall()
     return review_data
 
+
 @app.route("/", methods=['GET', 'POST'])
 @app.route("/<message>", methods=['GET', 'POST'])
 def login(message='Welcome!'):
@@ -57,7 +58,7 @@ def login(message='Welcome!'):
             return(redirect(url_for('search')))
         else:
             if request.method == 'GET':
-                return render_template('login.html', message=message)
+                return render_template('login.html', message=message, logout='false')
             else:
                 session['username'] = request.form['username']
                 session['password'] = request.form['password']
@@ -85,7 +86,7 @@ def logout():
 def register():
     """View function that allows new users to register"""
     if request.method == 'GET':
-        return render_template('register.html')
+        return render_template('register.html', logout='False')
     else:
         username = request.form['username']
         password = request.form['password']

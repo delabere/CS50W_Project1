@@ -21,9 +21,14 @@
       <img src="..\static\img\1024px-Closed_Book_Icon.svg.png" width="30" height="30" class="d-inline-block align-top" alt="">
       Over-Booked
     </a>
-    <a class="navbar-brand" href="{{ url_for('logout') }}">
-      logout
-    </a>
+{% if logout %}
+
+{% else %}
+<a class="navbar-brand" href="{{ url_for('logout') }}">
+  logout
+</a>
+{% endif %}
+
   </nav>
 
 
