@@ -3,6 +3,11 @@
   --input-padding-y: 0.75rem;
 }
 
+.tableFixHead          { overflow-y: auto; height: 100px; }
+.tableFixHead thead th { position: sticky; top: 0; }
+
+th     { background:#edb26c; }
+
 .login, .image {
   min-height: 100vh;
 }
