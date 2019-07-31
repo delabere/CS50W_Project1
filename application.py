@@ -90,7 +90,7 @@ def logout():
 def register():
     """View function that allows new users to register"""
     if request.method == 'GET':
-        return render_template('register.html', logout='False')
+        return render_template('register.html', logout='False', message='Register Here!')
     else:
         username = request.form['username']
         password = request.form['password']
@@ -103,7 +103,7 @@ def register():
             db.commit()
 
         else:
-            return('User already exists...please try another username')
+            return render_template('register.html', logout='False', message='User already exists...please try another username')
         return redirect(url_for('login',
                                 message="User created, please login!"))
 
