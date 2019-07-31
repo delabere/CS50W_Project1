@@ -29,9 +29,11 @@ def get_results(search_term, search_field):
     print('==============================GETBOOKSS===========================')
     return books
 
+
 def getBookdata(isbn):
     """Retrieves book data from the book table"""
-    data = db.execute("SELECT * FROM books where isbn = :isbn", {'isbn': isbn}).fetchone()
+    data = db.execute("SELECT * FROM books where isbn = :isbn",
+                      {'isbn': isbn}).fetchone()
     return data
 
 
@@ -43,9 +45,11 @@ def getGrdsdata(isbn):
     average_rating = response['books'][0]['average_rating']
     return ratings_count, average_rating
 
+
 def getReviews(isbn):
     """Gets review data from database"""
-    review_data = db.execute("SELECT username, review_score, review_content FROM reviews where isbn = :isbn", {'isbn': isbn}).fetchall()
+    review_data = db.execute("SELECT username, review_score, review_content FROM reviews where isbn = :isbn", {
+                             'isbn': isbn}).fetchall()
     return review_data
 
 
@@ -132,8 +136,6 @@ def search(books=None, first=False):
         return redirect(url_for('login', message='You have to login first!'))
 
 
-
-
 @app.route("/book/<isbn>", methods=['GET', 'POST'])
 def book(isbn):
     """Gives user detail on a book and the abliity to rate it"""
@@ -143,10 +145,10 @@ def book(isbn):
         ratings_count, average_rating = getGrdsdata(isbn)
         review_data = getReviews(isbn)
         return render_template('book.html', isbn=isbn, title=title,
-                                            author=author, year=year,
-                                            ratings_count=ratings_count,
-                                            average_rating=average_rating,
-                                            review_data=review_data)
+                               author=author, year=year,
+                               ratings_count=ratings_count,
+                               average_rating=average_rating,
+                               review_data=review_data)
     else:
         # add check that isbn is valid if entered manually else 404 error
         rating = request.form['rating']
@@ -159,12 +161,14 @@ def book(isbn):
         else:
             return redirect(url_for('login'))
 
+
 @app.route('/api/<isbn>')
 def api(isbn):
     """Returns a JSON response object from an api call"""
     response = {}
     # get the goodreads api data
-    response['isbn'], response['title'], response['author'], response['year'] = getBookdata(isbn)
+    response['isbn'], response['title'], response['author'], response['year'] = getBookdata(
+        isbn)
     response['review_count'], response['average_score'] = getGrdsdata(isbn)
 
     return json.dumps(response)
