@@ -38,6 +38,7 @@
                 </div>
 
             </div>
+            <br>
             <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" href"{{ url_for('login', message=message) }}" type="submit">Search</button>
           </div>
           </form>
@@ -50,6 +51,9 @@
 <br>
 
 {% if books %}
+
+<h3 class="login-heading mb-4  text-center">Click on any of the below books for more information and to leave your own review:</h3>
+
 <div class="container-fluid">
   <table class="table table-hover">
     <thead>
@@ -65,22 +69,10 @@
         <td><a href="{{ url_for('book', isbn=book[0]) }}">{{book[0]}}</a></td>
         <td><a href="{{ url_for('book', isbn=book[0]) }}">{{book[1]}}</a></td>
         <td><a href="{{ url_for('book', isbn=book[0]) }}">{{book[2]}}
-            <button type="button" class="btn btn-primary btn-sm" style="float: right;" href="{{ url_for('book', isbn=book[0]) }}">More... </button
-          </a>
-          
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-</div>
-
-{% else %}
-{% if first == False %}
-<h1 class="alert alert-dark text-center">404: No books found</h1>
-{% endif %}
-{% endif %}
+            <button type="button" class="btn btn-primary btn-sm" style="float: right;" href="{{ url_for('book', isbn=book[0]) }}">More... </button </a> </td> </tr> {% endfor %} </tbody> </table> </div> {% else %} {% if first == False %} <h1
+              class="alert alert-dark text-center">404: No books found</h1>
+            {% endif %}
+            {% endif %}
 
 
-{% endblock %}
+            {% endblock %}
