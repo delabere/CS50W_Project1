@@ -113,7 +113,7 @@ def register():
 def search(books=None, first=False):
     """Allows the search of books using isbn, title or author"""
     if 'authenticated' in session:
-        if session['authenticated'] == True:
+        if session['authenticated']:
             if request.method == 'GET':
                 return render_template('search.html', first=True)
             else:  # search functionality

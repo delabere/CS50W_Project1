@@ -4,6 +4,12 @@
 }
 
 
+.tableFixHead          { overflow-y: auto; height: 100px; }
+.tableFixHead thead th { position: sticky; top: 0; }
+
+/* Just common table stuff. Really. */
+th     { background:#edb26c; }
+
 .login, .image {
   min-height: 100vh;
 }
