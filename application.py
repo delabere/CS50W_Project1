@@ -57,6 +57,7 @@ def getReviews(isbn):
 @app.route("/<message>", methods=['GET', 'POST'])
 def login(message='Welcome!'):
     """View function to greet user with login screen"""
+    message = 'Welcome!'
     if 'authenticated' in session:
         if session['authenticated'] == True:
             return(redirect(url_for('search')))
