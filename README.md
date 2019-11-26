@@ -1,7 +1,6 @@
-# Project 1
-A project completed as part of CS50's Web Programming with Python and JavaScript
-
 # Over-Booked
+https://over-booked.herokuapp.com/
+![Image description](Over-Booked.png)
 Over-Booked is a fully responsive website that allows you to search information
 and leave reviews for thousands of books!
 
