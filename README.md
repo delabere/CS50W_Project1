@@ -3,7 +3,7 @@
 ![Image description](Over-Booked.png)
 
 ## Book info on Mobile
-![Image description](Over-Booked-mobile.png){:height="50%" width="50%"}
+![Image description](Over-Booked-mobile.png)
 
 Over-Booked is a fully responsive website that allows you to search information
 and leave reviews for thousands of books!
