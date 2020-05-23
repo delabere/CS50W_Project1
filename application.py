@@ -8,6 +8,9 @@ import json
 
 app = Flask(__name__)
 
+DATABASE_URL='postgres://onfwzccdzpjzgo:25b3ec29ff230332eb948ca489d4fb22c9d3c00cc7a7cc8a723ea8c6f84de8dd@ec2-54-217-219-235.eu-west-1.compute.amazonaws.com:5432/dcig9roku03qke'
+
+os.environ["DATABASE_URL"] = DATABASE_URL
 
 if not os.getenv("DATABASE_URL"):
     raise RuntimeError("DATABASE_URL is not set")
@@ -173,3 +176,4 @@ def api(isbn):
     response['review_count'], response['average_score'] = getGrdsdata(isbn)
 
     return json.dumps(response)
+
