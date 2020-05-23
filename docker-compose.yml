@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  overbooked:
+    container_name: overbooked
+    build: ./overbooked
+    command: gunicorn --bind 0.0.0.0:80 application:app
+    volumes:
+      - ./overbooked:/usr/src/spp
+    ports:
+      - 80:80
